@@ -2,7 +2,7 @@
 
 Agent skill for pulling installed skill submodules up to their latest remote commit.
 
-Brings every skill submodule under `.agents/skills` current in one pass, reports what changed, and leaves the updated pointers staged for review instead of bumping each submodule by hand.
+Brings every skill submodule under `.agents/skills` current in one pass and reports what changed, without touching the parent repo's git index, instead of bumping each submodule by hand.
 
 ## Install
 

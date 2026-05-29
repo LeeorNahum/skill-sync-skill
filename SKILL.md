@@ -4,7 +4,7 @@ description: Pull every skill submodule under the agent skills directory up to i
 disable-model-invocation: true
 metadata:
   author: Leeor Nahum
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Skill Sync
@@ -28,7 +28,14 @@ This fetches each skill submodule's tracked branch and re-pins it to the latest 
 - Do not pass `--init`. Some skills are local-only directories, not submodules. Initializing would try to clone things that should stay local.
 - If a single submodule fails to fetch, report which one and why, then continue with the rest. Do not abort the whole run for one failure.
 
-## After Updating
+## Report
 
-1. Run `git submodule status -- .agents/skills` and report which skills advanced (a changed commit hash) versus which were already current.
-2. Leave the updated submodule pointers staged in the parent repo. Do not commit them. Surface them so the user can review and commit when ready.
+Report what this run did:
+
+- Which skills advanced to a new commit.
+- That the rest were already current.
+- Any skill that failed to fetch, with the reason.
+
+The update command's output already names what changed, so this needs no extra work.
+
+Do not stage, commit, or otherwise modify the parent repo's git index. Pulling a submodule leaves its new pointer as an unstaged change in the parent; leave it exactly there. Do not inspect, report on, or worry about unrelated changes, other staged files, or the parent's commit state. This skill only pulls and reports.
