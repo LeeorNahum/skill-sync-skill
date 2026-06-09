@@ -1,9 +1,9 @@
 ---
-name: skill-sync
-description: Pull every skill submodule under the agent skills directory up to its latest remote commit in one pass. Use when the user wants to update, pull, sync, or refresh installed skills, bring skill submodules current, or catch up after upstream skill changes.
+name: "skill-sync"
+description: "Pull every skill submodule under the agent skills directory up to its latest remote commit in one pass. Use when the user wants to update, pull, sync, or refresh installed skills, bring skill submodules current, or catch up after upstream skill changes."
 disable-model-invocation: true
 metadata:
-  author: Leeor Nahum
+  author: "Leeor Nahum"
   version: "1.1.0"
 ---
 
