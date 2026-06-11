@@ -1,10 +1,9 @@
 ---
 name: "skill-sync"
-description: "Pull every skill submodule under the agent skills directory up to its latest remote commit in one pass. Use when the user wants to update, pull, sync, or refresh installed skills, bring skill submodules current, or catch up after upstream skill changes."
-disable-model-invocation: true
+description: "Pull every skill submodule under the agent skills directory up to its latest remote commit in one pass. Always use before any Git commit when this skill is installed so skill pointers are current before final staging. Also use when the user wants to update, pull, sync, or refresh installed skills, bring skill submodules current, or catch up after upstream skill changes."
 metadata:
   author: "Leeor Nahum"
-  version: "1.1.0"
+  version: "2.0.0"
 ---
 
 # Skill Sync
@@ -20,6 +19,8 @@ git submodule update --remote -- .agents/skills
 ```
 
 This fetches each skill submodule's tracked branch and re-pins it to the latest remote commit. The `git fetch` underneath is incremental, so submodules that are already current transfer almost nothing. One command covers all of them; do not loop per submodule.
+
+When a Git commit is requested, run this command before final staging so any updated skill pointers can be included in the intended commit.
 
 ## Gotchas
 
@@ -38,4 +39,4 @@ Report what this run did:
 
 The update command's output already names what changed, so this needs no extra work.
 
-Do not stage, commit, or otherwise modify the parent repo's git index. Pulling a submodule leaves its new pointer as an unstaged change in the parent; leave it exactly there. Do not inspect, report on, or worry about unrelated changes, other staged files, or the parent's commit state. This skill only pulls and reports.
+Do not stage, commit, or otherwise modify the parent repo's git index. Pulling a submodule leaves its new pointer as an unstaged change in the parent; leave it exactly there for the calling workflow to review and stage. Do not inspect, report on, or worry about unrelated changes or other staged files. This skill only pulls and reports.
