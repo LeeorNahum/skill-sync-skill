@@ -3,7 +3,7 @@ name: "skill-sync"
 description: "Pull every skill submodule under the agent skills directory up to its latest remote commit in one pass. Always use before any Git commit when this skill is installed so skill pointers are current before final staging. Also use when the user wants to update, pull, sync, or refresh installed skills, bring skill submodules current, or catch up after upstream skill changes."
 metadata:
   author: "Leeor Nahum"
-  version: "2.0.0"
+  version: "2.0.1"
 ---
 
 # Skill Sync

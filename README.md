@@ -7,7 +7,7 @@ Brings every skill submodule under `.agents/skills` current in one pass and repo
 ## Install
 
 ```bash
-git submodule add https://github.com/LeeorNahum/skill-sync-skill.git .agents/skills/skill-sync-skill
+git submodule add https://github.com/LeeorNahum/skill-sync-skill.git .agents/skills/skill-sync
 ```
 
 ## Files
