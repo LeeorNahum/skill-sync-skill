@@ -3,7 +3,7 @@ name: "skill-sync"
 description: "Pull every skill submodule under the agent skills directory up to its latest remote commit in one pass. Always use before any Git commit when this skill is installed so skill pointers are current before final staging. Also use when the user wants to update, pull, sync, or refresh installed skills, bring skill submodules current, or catch up after upstream skill changes."
 metadata:
   author: "Leeor Nahum"
-  version: "2.0.1"
+  version: "2.1.0"
 ---
 
 # Skill Sync
@@ -29,6 +29,12 @@ When a Git commit is requested, run this command before final staging so any upd
 - Do not pass `--init`. Some skills are local-only directories, not submodules. Initializing would try to clone things that should stay local.
 - If a single submodule fails to fetch, report which one and why, then continue with the rest. Do not abort the whole run for one failure.
 
+## Directory Name Check
+
+After pulling, verify that each skill submodule's local directory name matches the `name` field in its `SKILL.md` frontmatter. Read the frontmatter `name` from `.agents/skills/<dir>/SKILL.md` and compare it to `<dir>`. They must be identical.
+
+Report any mismatch as a warning alongside the sync report. A mismatch means the submodule was installed or renamed incorrectly. The fix is to rename the directory to match the frontmatter name using `git mv .agents/skills/<old> .agents/skills/<name>`, then update `.gitmodules` accordingly. Do not perform the rename automatically; report it and let the user confirm.
+
 ## Report
 
 Report what this run did:
@@ -36,6 +42,7 @@ Report what this run did:
 - Which skills advanced to a new commit.
 - That the rest were already current.
 - Any skill that failed to fetch, with the reason.
+- Any directory name that does not match the skill's frontmatter `name`.
 
 The update command's output already names what changed, so this needs no extra work.
 
