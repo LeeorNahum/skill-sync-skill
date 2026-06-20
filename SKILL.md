@@ -3,7 +3,7 @@ name: "skill-sync"
 description: "Sync and update all installed skill submodules to their latest remote commits. Use this skill before every Git commit, or whenever the user asks to update, sync, refresh, or pull installed skills, or when a skill is installed."
 metadata:
   author: "Leeor Nahum"
-  version: "2.2.0"
+  version: "2.3.0"
 ---
 
 # Skill Sync
@@ -33,7 +33,7 @@ When a Git commit is requested, run this command before final staging so any upd
 
 After pulling, verify that each skill submodule's local directory name matches the `name` field in its `SKILL.md` frontmatter. Read the frontmatter `name` from `.agents/skills/<dir>/SKILL.md` and compare it to `<dir>`. They must be identical.
 
-Fix any mismatch automatically: run `git mv .agents/skills/<old> .agents/skills/<name>` from the repo root. `git mv` moves the directory and updates `.gitmodules` in one operation. Include the renamed path in the sync report.
+Fix any mismatch automatically: run `git mv .agents/skills/<old> .agents/skills/<name>` from the repo root. `git mv` moves the directory and updates `.gitmodules` in one operation. It also stages that move in the parent index, which is expected and is the one thing this skill stages; it still does not commit. Include the renamed path in the sync report.
 
 ## Report
 
@@ -46,4 +46,6 @@ Report what this run did:
 
 The update command's output already names what changed, so this needs no extra work.
 
-Do not stage, commit, or otherwise modify the parent repo's git index. Pulling a submodule leaves its new pointer as an unstaged change in the parent; leave it exactly there for the calling workflow to review and stage. Do not inspect, report on, or worry about unrelated changes or other staged files. This skill only pulls and reports.
+Do not commit or push, and do not touch unrelated index entries. Pulling a submodule leaves its new pointer as an unstaged change; leave it there for the calling workflow to stage. The only thing this skill stages is a `git mv` rename from the Directory Name Check, because moving a tracked path cannot be expressed without staging it. Neither the pull nor the rename commits.
+
+When this skill runs as a pre-step to a commit or push, the calling workflow stages, commits, and pushes the synced pointers as part of its own intended change. When it runs standalone to refresh skills, it leaves the pointers and any rename in the working tree for review. Either way, committing and pushing are the caller's decision, never this skill's. Do not inspect or worry about unrelated changes or other staged files.
